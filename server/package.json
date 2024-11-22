@@ -1,0 +1,28 @@
+{
+  "name": "meditrack-server",
+  "version": "1.0.0",
+  "description": "comprehensive health care system",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "nodemon index.js",
+    "client": "npm run dev --prefix ../client",
+    "build": "echo 'No build step necessary'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DileepKumarRambarki/meditrack.git"
+  },
+  "author": "Dileep kumar Rambarki",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DileepKumarRambarki/meditrack/issues"
+  },
+  "homepage": "https://github.com/DileepKumarRambarki/meditrack#readme",
+  "dependencies": {
+    "concurrently": "^9.1.0",
+    "nodemon": "^3.1.7"
+  }
+}
