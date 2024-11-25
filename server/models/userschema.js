@@ -18,7 +18,7 @@ const userSchema=new mongoose.Schema({
         required:true
     },
     age:Number,
-    address:String,
+    gender:String,
 })
 const users=new mongoose.model("users",userSchema);
 module.exports=users;
