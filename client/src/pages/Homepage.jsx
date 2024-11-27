@@ -1,6 +1,10 @@
-function Homepage(){
+import Navbar from "./Navbar"
+function Homepage() {
     return(
-        <h1>Home</h1>
+        <div id="homepage">
+            <Navbar/>
+            <h1>home</h1>
+        </div>
     )
 }
 export default Homepage
