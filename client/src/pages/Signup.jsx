@@ -44,7 +44,7 @@ const Signup = () => {
       }
       else{
         login(usermail);
-        navigate("/home");
+        navigate("/");
       }
     };
     const handlegenderChange=(event)=>{
@@ -168,7 +168,7 @@ const Signup = () => {
           </Box>
         </Box>
         <p>
-          Already have an account? <Link to="/VLogin">Sign In</Link>
+          Already have an account? <Link to="/login">Sign In</Link>
           </p>
       </Container>
     );

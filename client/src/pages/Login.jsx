@@ -25,7 +25,7 @@ import {
       const response=await axios.post("http://localhost:3000/login/",{usermail:email,password:password});
       if(response && response.data==="valid user"){
         login(email);
-        navigate("/home");
+        navigate("/");
       }
     };
   
@@ -94,7 +94,7 @@ import {
         </Box>
   
         <p>
-            Not having an account? <Link to="/VSignup">Sign Up</Link>
+            Not having an account? <Link to="/signup">Sign Up</Link>
             </p>
   
       </Container>

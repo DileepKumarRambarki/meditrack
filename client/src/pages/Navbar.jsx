@@ -15,14 +15,14 @@ import AdbIcon from '@mui/icons-material/Adb';
 import logo from "../assets/logo2.png"
 import Sidebar from "./Sidebar"
 import zIndex from '@mui/material/styles/zIndex';
-
+import {useAuth} from "../utils/Authcontext";
 const pages = ['Donate', 'Request'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
-function Navbar() {
+function Navbar(props) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-
+  const {logout}=useAuth();
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -37,6 +37,7 @@ function Navbar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+  const handlesetting={"Logout":logout,"Profile":handleCloseUserMenu,"Account":handleCloseUserMenu,"Dashboard":handleCloseUserMenu};
 
   return (
     <AppBar position="static" sx={{width:"100vw", position:"fixed", top:"0", left:"0",zIndex:"1000"}}>
@@ -46,8 +47,11 @@ function Navbar() {
           }}
       >
         <Toolbar disableGutters>
-            <Sidebar />
-            {/* <MenuIcon sx={{marginRight:"20px", cursor:"pointer"}}/> */}
+            {/* <Sidebar /> */}
+            <div onClick={()=>{props.handlesidebar(!props.open)}} style={{width:"30px",height:"30px"}}>
+            <MenuIcon sx={{marginRight:"20px", cursor:"pointer"}}
+             />
+            </div>
             <img src={logo} alt="meditrack logo" width={50} height={50}/>
           <Typography
             variant="h6"
@@ -155,7 +159,7 @@ function Navbar() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                <MenuItem key={setting} onClick={handlesetting[setting]}>
                   <Typography sx={{ textAlign: 'center' }}>{setting}</Typography>
                 </MenuItem>
               ))}

@@ -1,0 +1,7 @@
+#sidebar{
+    position: fixed;
+    overflow-y: auto;
+    top: 80px;
+    width: 230px;
+    padding:0 10px;
+}

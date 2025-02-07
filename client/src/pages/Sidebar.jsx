@@ -30,65 +30,42 @@ import MeetingRoomRoundedIcon from '@mui/icons-material/MeetingRoomRounded';
 import MenuIcon from '@mui/icons-material/Menu';
 import HotelRoundedIcon from '@mui/icons-material/HotelRounded';
 import Done from '@mui/icons-material/Done';
+import styles from "./Sidebar.module.css";
+import { useEffect ,useRef} from 'react';
+const handleSidebar=()=>{
+  setOpen(!open);
+}
 
-export default function Sidebar() {
+export default function Sidebar(props) {
   const [open, setOpen] = React.useState(true);
+  useEffect(() => {
+    setOpen(props.open);
+  }, [props.open]);
+  console.log("in sidebar");
   const [type, setType] = React.useState('Guesthouse');
   const [amenities, setAmenities] = React.useState([0, 6]);
-    const handleSidebar=()=>{
-        setOpen(!open);
-    }
+  const sidebar=useRef(null);
+  useEffect(()=>{
+    sidebar.current.style.left=(open?"0px":"-250px");
+  },[open])
   return (
-    <React.Fragment>
-      <Button
-        sx={{padding:"10px",outline:"none",background:"transparent"}}
-        onClick={handleSidebar}
-      >
-        <MenuIcon  sx={{marginRight:"0px", cursor:"pointer",fontSize:"2rem"}} />
-      </Button>
-      <Drawer
-        size="sm"
-        variant="plain"
-        open={open}
-        onClose={() => setOpen(false)}
-        p={0}
-        hideBackdrop
-        sx={{backdropFilter:"none",zIndex:"0"}}
-        slotProps={{
-            content: {
-            sx: {
-                p: { md: 2, sm: 0 },
-                boxShadow: 'none',
-                backgroundColor:"white",
-            },
-            },
-        }}
-    >
-        <Sheet
-          sx={{
-            borderRadius: 'md',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 2,
-            height: '100%',
-            overflow: 'auto',
-            padding:"0"
-          }}
-        >
-          <DialogContent sx={{ gap: 2 }}>
-            <FormControl sx={{paddingTop:"55px"}}>
-              <RadioGroup
-                value={type || ''}
-                onChange={(event) => {
-                  setType(event.target.value);
-                }}
-              >
+    // <React.Fragment>
+      
+        
                 <Box
                   sx={{
                     display:"flex",
                     flexDirection:"column",
-                    gap:"10px"
+                    gap:"10px",
+                    // position: "fixed",
+                    // top: "80px",
+                    width: "230px",
+                    padding:"0 10px",
+                    transition: "left 0.5s ease-in-out",
+                    zIndex:"1000",
                   }}
+                  id={styles.sidebar}
+                  ref={sidebar}
                 >
                   {[
                     {
@@ -112,46 +89,17 @@ export default function Sidebar() {
                       key={item.name}
                       sx={{
                         boxShadow: 'none',
-                        '&:hover': { bgcolor: 'background.level1' },
+                        '&:hover': { bgcolor: 'background.level1' ,border:"1px solid black"},
+                        
                       }}
                     >
-                      <CardContent>
+                      <CardContent sx={{cursor:"pointer"}}>
                         {item.icon}
-                        <Typography level="title-md">{item.name}</Typography>
+                        <Typography level="title-md" sx={{textAlign:"left"}}>{item.name}</Typography>
                       </CardContent>
-                      <Radio
-                        disableIcon
-                        overlay
-                        checked={type === item.name}
-                        variant="outlined"
-                        color="neutral"
-                        value={item.name}
-                        sx={{ mt: -2 }}
-                        slotProps={{
-                          action: {
-                            sx: {
-                              ...(type === item.name && {
-                                borderWidth: 2,
-                                borderColor:
-                                  'var(--joy-palette-primary-outlinedBorder)',
-                              }),
-                              '&:hover': {
-                                bgcolor: 'transparent',
-                              },
-                            },
-                          },
-                        }}
-                      />
                     </Card>
                   ))}
                 </Box>
-              </RadioGroup>
-            </FormControl>
-
-          </DialogContent>
-
-        </Sheet>
-      </Drawer>
-    </React.Fragment>
+    // </React.Fragment>
   );
 }
