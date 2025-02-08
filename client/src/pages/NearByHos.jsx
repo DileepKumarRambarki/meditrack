@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios"
 import Card from "./Card"
 const NearbyHos=(props)=>{
+    console.log("near by hos");
     const [location,setLocation]=useState({lat:"",lan:""});
     const [hospitals,setHospitals]=useState([]);
     let data={
@@ -1097,7 +1098,7 @@ const NearbyHos=(props)=>{
                 }
             }
         ]
-    }
+    }.data;
     const getLocation=()=>{
         if(navigator.geolocation){
             navigator.geolocation.getCurrentPosition(showLocation);
@@ -1109,24 +1110,24 @@ const NearbyHos=(props)=>{
     }
     const showLocation=(position)=>{
         setLocation({lat:position.coords.latitude,lan:position.coords.longitude});
+        console.log("location fetched...");
         localStorage.setItem("latitude",position.coords.latitude);
         localStorage.setItem("longitude",position.coords.longitude);
     }
     const getHospitals=async()=>{
         const response=await axios.post("http://localhost:3000/hospitals/",location);
-        console.log(response.data.data);
         setHospitals(response["data"].data);
     }
     useEffect(()=>{
         getLocation();
     },[ ]);
-    // useEffect(()=>{
-    //      getHospitals()
+    useEffect(()=>{
+         getHospitals()
 
-    //  },[location]);
+     },[location]);
      return(
         <div id="hospitallist" style={{display:"flex", gap:"10px", flexWrap:"wrap", justifyContent:"space-evenly"}}>
-            { data["data"].map((hospital,index)=>{
+            { hospitals.length>0 && hospitals.map((hospital,index)=>{
                 return (<Card key={index} 
                     name={hospital.name}
                     district={hospital.district}

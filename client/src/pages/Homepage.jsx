@@ -1,6 +1,7 @@
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 import NearbyHos from "./NearByHos";
+import LabCard from "./LabCard";
 import styles from "./Homepage.module.css";
 import { useEffect, useRef, useState } from "react";
 
@@ -22,6 +23,7 @@ function Homepage() {
                 <Sidebar open={sidebarOpen} setOpen={setSidebarOpen} id={styles.sidebar} />
                 <div id={styles.pages} ref={pages}>
                     <NearbyHos sidebar={sidebarOpen} />
+                    {/* <LabCard/> */}
                 </div>
             </div>
         </div>
