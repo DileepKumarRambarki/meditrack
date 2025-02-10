@@ -3,6 +3,7 @@ import Sidebar from "./Sidebar";
 import NearbyHos from "./NearByHos";
 import LabCard from "./LabCard";
 import styles from "./Homepage.module.css";
+
 import { useEffect, useRef, useState } from "react";
 
 function Homepage() {
@@ -18,12 +19,23 @@ function Homepage() {
     },[sidebarOpen])
     return (
         <div id={styles.homepage} >
-            <Navbar handlesidebar={handleSidebar} open={sidebarOpen} />
+            <Navbar handlesidebar={handleSidebar} open={sidebarOpen} id={styles.navbar} />
             <div id={styles.content} style={{display:"flex",flexDirection:"row"}}>
+                <div id={styles.sidebox}>
                 <Sidebar open={sidebarOpen} setOpen={setSidebarOpen} id={styles.sidebar} />
+                </div>
                 <div id={styles.pages} ref={pages}>
-                    <NearbyHos sidebar={sidebarOpen} />
-                    {/* <LabCard/> */}
+                    {/* <NearbyHos sidebar={sidebarOpen} /> */}
+                    <LabCard/>
+                    <LabCard/>
+                    <LabCard/>
+                    <LabCard/>
+                    <LabCard/>
+                    <LabCard/>
+                    <LabCard/>
+                    <LabCard/>
+                    <LabCard/>
+                    <LabCard/>
                 </div>
             </div>
         </div>

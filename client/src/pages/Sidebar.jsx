@@ -84,6 +84,22 @@ export default function Sidebar(props) {
                       name: 'Labaratory',
                       icon: <LabIcon />,
                     },
+                    {
+                      name: 'Nearby hospitals',
+                      icon: <HospitalIcon />,
+                    },
+                    {
+                      name: 'Your reports',
+                      icon: <ReportIcon />,
+                    },
+                    {
+                      name: 'Appointments',
+                      icon: <AppointIcon />,
+                    },
+                    {
+                      name: 'Labaratory',
+                      icon: <LabIcon />,
+                    },
                   ].map((item) => (
                     <Card
                       key={item.name}
