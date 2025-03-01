@@ -3,19 +3,20 @@ import Sidebar from "./Sidebar";
 import NearbyHos from "./NearByHos";
 import LabCard from "./LabCard";
 import styles from "./Homepage.module.css";
-
+import LabReport from "./LabReport";
+import Appointment from "./Appointment";
 import { useEffect, useRef, useState } from "react";
-
+import { Outlet } from "react-router-dom";
 function Homepage() {
     const [sidebarOpen, setSidebarOpen] = useState(true);
 
     const handleSidebar = (open) => {
         setSidebarOpen(open);
-        console.log("Sidebar toggled:", open);
     };
     const pages=useRef(null);
     useEffect(()=>{
         pages.current.style.left=sidebarOpen?"250px":"0";
+        pages.current.style.width=sidebarOpen?"70%":"100%";
     },[sidebarOpen])
     return (
         <div id={styles.homepage} >
@@ -25,17 +26,7 @@ function Homepage() {
                 <Sidebar open={sidebarOpen} setOpen={setSidebarOpen} id={styles.sidebar} />
                 </div>
                 <div id={styles.pages} ref={pages}>
-                    {/* <NearbyHos sidebar={sidebarOpen} /> */}
-                    <LabCard/>
-                    <LabCard/>
-                    <LabCard/>
-                    <LabCard/>
-                    <LabCard/>
-                    <LabCard/>
-                    <LabCard/>
-                    <LabCard/>
-                    <LabCard/>
-                    <LabCard/>
+                    <Outlet/>
                 </div>
             </div>
         </div>

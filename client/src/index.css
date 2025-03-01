@@ -21,7 +21,10 @@ body {
   min-width: 320px;
   min-height: 100vh;
 }
-
+::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
@@ -48,7 +51,7 @@ button:focus-visible {
 
 @media (prefers-color-scheme: light) {
   :root {
-    /* color: #213547; */
+    color: #213547;
     background-color: #ffffff;
   }
   a:hover {

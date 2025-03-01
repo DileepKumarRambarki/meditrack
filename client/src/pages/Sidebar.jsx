@@ -32,6 +32,7 @@ import HotelRoundedIcon from '@mui/icons-material/HotelRounded';
 import Done from '@mui/icons-material/Done';
 import styles from "./Sidebar.module.css";
 import { useEffect ,useRef} from 'react';
+import { Link } from 'react-router-dom';
 const handleSidebar=()=>{
   setOpen(!open);
 }
@@ -71,36 +72,26 @@ export default function Sidebar(props) {
                     {
                       name: 'Nearby hospitals',
                       icon: <HospitalIcon />,
+                      url:"nearbyhos",
                     },
                     {
                       name: 'Your reports',
                       icon: <ReportIcon />,
+                      url:"lab-reports"
                     },
                     {
                       name: 'Appointments',
                       icon: <AppointIcon />,
+                      url:"appointments"
                     },
                     {
                       name: 'Labaratory',
                       icon: <LabIcon />,
+                      url:"lab"
                     },
-                    {
-                      name: 'Nearby hospitals',
-                      icon: <HospitalIcon />,
-                    },
-                    {
-                      name: 'Your reports',
-                      icon: <ReportIcon />,
-                    },
-                    {
-                      name: 'Appointments',
-                      icon: <AppointIcon />,
-                    },
-                    {
-                      name: 'Labaratory',
-                      icon: <LabIcon />,
-                    },
+                    
                   ].map((item) => (
+                    <Link to={item.url} style={{textDecoration:"none"}}>
                     <Card
                       key={item.name}
                       sx={{
@@ -114,6 +105,7 @@ export default function Sidebar(props) {
                         <Typography level="title-md" sx={{textAlign:"left"}}>{item.name}</Typography>
                       </CardContent>
                     </Card>
+                    </Link>
                   ))}
                 </Box>
     // </React.Fragment>

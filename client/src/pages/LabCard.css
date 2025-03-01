@@ -1,4 +1,4 @@
-.lab-card-container {
+.reportcontainer {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -77,7 +77,6 @@
     clip-path: polygon(0% 35%, 0% 100%, 50% 100%);
   }
   
-  /* Hover Effects */
   .lab-card:hover .layer-4 {
     transform: rotateX(-20deg);
   }

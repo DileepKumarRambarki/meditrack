@@ -16,7 +16,7 @@ import logo from "../assets/logo2.png"
 import Sidebar from "./Sidebar"
 import zIndex from '@mui/material/styles/zIndex';
 import {useAuth} from "../utils/Authcontext";
-const pages = ['Donate', 'Request'];
+const pages = ['Contact Us', 'Feedback'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function Navbar(props) {
