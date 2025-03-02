@@ -8,12 +8,20 @@ import { useState ,useEffect,useRef} from 'react';
 import styles from "./Appointment.module.css"
 import  Snack  from './Snack';
 import { Button } from '@mui/material';
+import { useLocation } from 'react-router-dom';
+import axios from "axios"
+import { useAuth } from '../utils/Authcontext';
 export default function ResponsiveDatePickers() {
-  const [date, setDate]=useState(null);
-  const [time,setTime]=useState(null);
-  const [ appointment,setAppointment]=useState({date:"",time:""});
-  const [bgcolor,setbgcolor]=useState("white");
-  const [timeslots,setTimeslots]=useState(["10:30AM-11:00AM","11:30AM-12:00PM","02:00PM-02:30PM"]);
+  const {usermail}=useAuth();
+  const location=useLocation();
+  // const [date, setDate]=useState(null);
+  const [hospital,setHospital]=useState(location.state);
+  // const [time,setTime]=useState(null);
+  const [ appointment,setAppointment]=useState({date:"",time:"",hospital:hospital,usermail:usermail});
+  // const [bgcolor,setbgcolor]=useState("white");
+  const timeslots=["10:00AM-10:30AM","10:30AM-11:00AM","11:30AM-12:00PM","12:00PM-12:30PM","02:00PM-02:30PM","02:30PM-03:00PM","03:00PM-03:30PM","03:30PM-04:00PM"];
+  const [availableSlots,setAvailableslots]=useState([]);
+  const [freeslots,setFreeslots]=useState([]);
   const [snackOpen,setSnack]=useState(false);
   const [color,setColor]=useState(-1);
   const timediv=useRef(null);
@@ -26,22 +34,37 @@ export default function ResponsiveDatePickers() {
     setAppointment({...appointment,time:timeslots[index]});
    }
   }
-  const handleSnack=()=>{
+  const handleSnack=async()=>{
     setSnack(true);
+    const appt=await axios.post("http://localhost:3000/appointments",appointment);
     console.log(appointment);
+  }
+  const handleDate=async ()=>{
+    const response=await axios.post("http://localhost:3000/freeslots",{date:appointment.date,hospital:hospital});
+    console.log(response.data);
+
+    const fslots=response.data.map(item=>item.time);
+        setFreeslots(fslots);
+
+    const availslots=timeslots.filter((slot)=>{
+      return !fslots.includes(slot)
+    });
+    setAvailableslots(availslots);
   }
   return (
     <div id={styles.container}>
     <LocalizationProvider dateAdapter={AdapterDayjs}>
           <StaticDatePicker  
           sx={{color:"black", display:"flex",flexDirection:"column",alignItems:"flex-start",width:"320px"}}
-          onChange={(newDate)=>setAppointment({...appointment,date:newDate.format("DD/MM/YYYY")})}
+          onChange={(newDate)=>setAppointment({...appointment,date:newDate.format("dddd, MMMM DD")})}
+          onAccept={handleDate}
           />
     </LocalizationProvider>
     <div id={styles.box2}>
     <div id={styles.timebox}>
       {
-        timeslots.map((time,index)=>{
+        availableSlots.length>0 && availableSlots.map((time,index)=>{
+          
           return(
       <div id={styles.time} key={index} onClick={()=>handleTimeColor(index)}
       style={{backgroundColor:index===color?"rgb(252, 70, 100)":"white"}}>

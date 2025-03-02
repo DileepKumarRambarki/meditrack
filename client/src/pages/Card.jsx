@@ -10,8 +10,8 @@ import { MdCall } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
 export default function BasicCard(props) {
   const navigate=useNavigate();
-  const handleAppointment=()=>{
-    navigate("/book-appointment");
+  const handleAppointment=(hospital)=>{
+    navigate("/book-appointment",{state:hospital});
   }
   return (
     <Card sx={{ width: props.sidebar?"400px":"320px" ,":hover":{transform:"scale(1.1)"},transition:"all 0.3s ease-in"}}>
@@ -48,7 +48,7 @@ export default function BasicCard(props) {
           color="primary"
           aria-label="Explore Bahamas Islands"
           sx={{ ml: 'auto', alignSelf: 'center', fontWeight: 600 }}
-          onClick={handleAppointment}
+          onClick={()=>handleAppointment(props.name)}
         >
           Book Appointement
         </Button>
