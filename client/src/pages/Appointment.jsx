@@ -56,7 +56,7 @@ export default function ResponsiveDatePickers() {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
           <StaticDatePicker  
           sx={{color:"black", display:"flex",flexDirection:"column",alignItems:"flex-start",width:"320px"}}
-          onChange={(newDate)=>setAppointment({...appointment,date:newDate.format("dddd, MMMM DD")})}
+          onChange={(newDate)=>setAppointment({...appointment,date:newDate.format("dddd, MMMM DD YYYY")})}
           onAccept={handleDate}
           />
     </LocalizationProvider>

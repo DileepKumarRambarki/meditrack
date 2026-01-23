@@ -9,6 +9,23 @@ const addAppointment=async(req,res)=>{
         console.log("ERROR INSERTING APPOINTMENTS",err );
     }
 }
+const getAppointments=async(req,res)=>{
+    try{
+        const usermail=req.body.usermail;
+        const appointmentsList=await appointments.find({usermail:usermail});
+        // getting only the upcoming appointments not completed ones
+        const currentDate = new Date();
+        const upcomingAppointments = appointmentsList.filter(appointment => {
+            const appointmentDate = new Date(appointment.date);
+            return appointmentDate >= currentDate;
+        });
+        res.json(upcomingAppointments).status(200);
+    }
+    catch(err){
+        console.log("ERROR FETCHING APPOINTMENTS",err);
+        res.status(500).send("Internal Server Error");
+    }
+}
 const freeslots=async(req,res)=>{
     try{
         console.log(req.body);
@@ -23,3 +40,4 @@ const freeslots=async(req,res)=>{
 }
 module.exports.addAppointment=addAppointment;
 module.exports.freeslots=freeslots;
+module.exports.getAppointments=getAppointments;

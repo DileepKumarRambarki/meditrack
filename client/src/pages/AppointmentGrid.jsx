@@ -1,7 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import axios from "axios";
+import {useAuth} from '../utils/Authcontext';
 const AppointmentGrid=()=>{
-  const [appointments,setAppointments]=useState([{time:"10:30",date:"Wdnesday ,March 1",hospital:"Apollo"},{time:"11:30",date:"thursday ,March 1",hospital:"Care hospitals"}]);
+  const usermail=useAuth().usermail;
+  const [appointments,setAppointments]=useState([{time:"",date:"",hospital:""}]);
+  const getAppointments=async()=>{
+    const appointmentList=await axios.post("http://localhost:3000/getappointments",{usermail:usermail});
+    console.log("appintment list: ",appointmentList.data);
+    setAppointments(appointmentList.data.map(item=>{
+      return {
+        time:item.time,
+        date:item.date,
+        hospital:item.hospital
+      }
+    
+    }));
+  }
+  useEffect(()=>{
+    getAppointments();
+  },[]);
     return(
       <div style={{width:"100%",display:"flex",flexWrap:"wrap",gap:"10px"}}>
         {
@@ -18,7 +36,7 @@ const DateCard = (props) => {
   return (
     <StyledWrapper>
       <div className="card">
-        <p className="time-text">{props.item.time}<span className="time-sub-text">AM</span></p>
+        <p className="time-text">{props.item.time}<span className="time-sub-text"></span></p>
         <p className="day-text">{props.item.date}</p>
         <p className='hospital'>{props.item.hospital}</p>
       </div>
@@ -51,7 +69,7 @@ const StyledWrapper = styled.div`
   }
 
   .time-text {
-    font-size: 50px;
+    font-size: 25px;
     margin-top: 0px;
     margin-bottom: 10px;
     font-weight: 600;
@@ -71,7 +89,7 @@ const StyledWrapper = styled.div`
   }
   .hospital{
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-size:30px;
+    font-size:25px;
     margin:0;
   }
   .moon {
