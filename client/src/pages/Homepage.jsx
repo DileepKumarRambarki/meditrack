@@ -8,7 +8,7 @@ import Appointment from "./Appointment";
 import { useEffect, useRef, useState } from "react";
 import { Outlet } from "react-router-dom";
 function Homepage() {
-    const [sidebarOpen, setSidebarOpen] = useState(true);
+    const [sidebarOpen, setSidebarOpen] = useState(false);
 
     const handleSidebar = (open) => {
         setSidebarOpen(open);

@@ -37,7 +37,7 @@
 
 #pages {
     position: absolute;
-    top:70px;
+    top:100px;
     flex: 1;
     overflow: auto;
     padding: 10px;

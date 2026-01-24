@@ -9,6 +9,7 @@ import NearbyHos from './pages/NearByHos'
 import LabReport from './pages/LabCard'
 import Appointment from "./pages/Appointment"
 import AppointmentGrid from './pages/AppointmentGrid'
+import Symptom from './pages/Symptom'
 function App() {
 
   return (
@@ -19,7 +20,9 @@ function App() {
             <Route path='/login' element={<Login/>}/>
             <Route path="/signup" element={<Signup/>}/>
             <Route element={<ProtectedRoute/>}>
+              
               <Route path="/" element={<Homepage/>}>
+                <Route path='/symptoms' element={<Symptom/>} />
                 <Route path="/nearbyhos" element={<NearbyHos/>} />
                 <Route path="/lab-reports" element={<LabReport/>} />
                 <Route path="/book-appointment" element={<Appointment/>} />

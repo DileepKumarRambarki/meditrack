@@ -1,0 +1,65 @@
+.buttonContainer {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+
+/* BASE BUTTON — fully visible */
+.c-button {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  opacity: 1;
+  filter: none;
+  transform: none;
+  color: black;
+}
+
+/* BUTTON CONTENT */
+.c-main {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  border-radius: 14px;
+  background: #f7f7f7;
+  font-weight: 600;
+  text-transform: capitalize;
+  transition: all 0.3s ease;
+}
+
+/* ICON */
+.c-ico {
+  position: relative;
+}
+
+.c-blur {
+  position: absolute;
+  inset: 0;
+  background: rgba(229, 57, 53, 0.35);
+  filter: blur(14px);
+  z-index: -1;
+}
+
+.ico-text img {
+  display: block;
+}
+
+/* 🔥 ACTIVE (ONLY WHEN CLICKED) */
+.active .c-main {
+  background: #e53935;
+  color: white;
+  transform: scale(1.05);
+  box-shadow: 0 12px 25px rgba(229, 57, 53, 0.45);
+}
+
+/* NORMAL HOVER */
+.c-button:hover .c-main {
+  background: #ececec;
+}
+
+/* KEEP ACTIVE COLOR ON HOVER */
+.active:hover .c-main {
+  background: #e53935;
+}
