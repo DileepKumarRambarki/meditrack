@@ -15,9 +15,10 @@ export default function ResponsiveDatePickers() {
   const {usermail}=useAuth();
   const location=useLocation();
   // const [date, setDate]=useState(null);
-  const [hospital,setHospital]=useState(location.state);
+  const [hospital,setHospital]=useState(location.state.hospital);
+  const [dept,setDept]=useState(location.state.dept);
   // const [time,setTime]=useState(null);
-  const [ appointment,setAppointment]=useState({date:"",time:"",hospital:hospital,usermail:usermail});
+  const [ appointment,setAppointment]=useState({date:"",time:"",hospital:hospital,department:dept, usermail:usermail, username:""});
   // const [bgcolor,setbgcolor]=useState("white");
   const timeslots=["10:00AM-10:30AM","10:30AM-11:00AM","11:30AM-12:00PM","12:00PM-12:30PM","02:00PM-02:30PM","02:30PM-03:00PM","03:00PM-03:30PM","03:30PM-04:00PM"];
   const [availableSlots,setAvailableslots]=useState([]);

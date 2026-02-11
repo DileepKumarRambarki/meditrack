@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
+import {useLocation} from "react-router-dom";
 import axios from "axios"
 import Card from "./Card"
 const NearbyHos=(props)=>{
-    console.log("near by hos");
-    const [location,setLocation]=useState({lat:"",lan:""});
+    // console.log("near by hos");
+    const [coordinates,setCoordinates]=useState({lat:"",lan:""});
     const [hospitals,setHospitals]=useState([]);
+    const location=useLocation();
+    const [dept,setDept]=useState(location.state.specialist||'General');
     let data={
         "status": "OK",
         "request_id": "7d5a3b0b-c633-4080-8bf8-61038e46a28d",
@@ -1104,18 +1107,18 @@ const NearbyHos=(props)=>{
     //         navigator.geolocation.getCurrentPosition(showLocation);
     //     }
     //     else{
-    //         console.log("error fetching location");
+    //         console.log("error fetching coordinates");
            
     //     }
     // }
     // const showLocation=(position)=>{
-    //     setLocation({lat:position.coords.latitude,lan:position.coords.longitude});
-    //     console.log("location fetched...");
+    //     setCoordinates({lat:position.coords.latitude,lan:position.coords.longitude});
+    //     console.log("coordinates fetched...");
     //     localStorage.setItem("latitude",position.coords.latitude);
     //     localStorage.setItem("longitude",position.coords.longitude);
     // }
     // const getHospitals=async()=>{
-    //     const response=await axios.post("http://localhost:3000/hospitals/",location);
+    //     const response=await axios.post("http://localhost:3000/hospitals/",coordinates);
     //     setHospitals(response["data"].data);
     // }
     // useEffect(()=>{
@@ -1124,7 +1127,7 @@ const NearbyHos=(props)=>{
     // useEffect(()=>{
     //      getHospitals()
 
-    //  },[location]);
+    //  },[coordinates]);
      return(
         <div id="hospitallist" style={{display:"flex", gap:"10px", flexWrap:"wrap", justifyContent:"space-evenly"}}>
             {  data.map((hospital,index)=>{
@@ -1135,7 +1138,8 @@ const NearbyHos=(props)=>{
                     url={hospital.photos_sample[0].photo_url}
                     sidebar={props.sidebar}
                     mobileno={hospital.phone_number}
-                    location={hospital.place_link}
+                    coordinates={hospital.place_link}
+                    dept={dept}
                     />)
             })}
         </div>

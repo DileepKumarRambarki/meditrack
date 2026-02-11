@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 export default function BasicCard(props) {
   const navigate=useNavigate();
   const handleAppointment=(hospital)=>{
-    navigate("/book-appointment",{state:hospital});
+    navigate("/book-appointment",{state:{hospital:hospital,dept:props.dept}});
   }
   return (
     <Card sx={{ width: props.sidebar?"400px":"320px" ,":hover":{transform:"scale(1.1)"},transition:"all 0.3s ease-in"}}>

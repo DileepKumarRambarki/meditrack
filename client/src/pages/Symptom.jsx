@@ -39,6 +39,7 @@ const Symptom = () => {
           "http://localhost:3000/getSpecialist",
           { prompt }
         );
+        console.log(resp.data.specialist);
         setSpecialist(resp.data.specialist);
         setSelected(resp.data.specialist);
       } catch (error) {
@@ -53,8 +54,9 @@ const Symptom = () => {
   useEffect(()=>{
     if(!selected) return;
     const timer=setTimeout(()=>{
-      navigate("/nearbyhos");
-    },2000);
+      // console.log('specialist:',specialist);
+      navigate("/nearbyhos",{state:{specialist:specialist}});
+    },5000);
     return ()=>clearTimeout(timer);
   },[selected,navigate]);
   return (
@@ -69,7 +71,7 @@ const Symptom = () => {
             label={item.label}
             isSelected={selected === item.label}
             hasSelection={selected !== null}
-            onClick={() => setSelected(item.label)}
+            onClick={() =>{ setSelected(item.label); setSpecialist(item.label)}}
           />
         ))}
       </div>

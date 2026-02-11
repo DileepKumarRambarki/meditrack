@@ -1,8 +1,11 @@
 const appointments=require("../models/appointmentSchema")
+const users=require('../models/userschema');
 const addAppointment=async(req,res)=>{
     try{
         const appt=req.body;
-       const insertappt= await appointments.create(appt);
+        const {usermail}=appt;
+        const userresp=await users.findOne({usermail:usermail},{username:1});
+       const insertappt= await appointments.create({...appt,username:userresp.username});
        res.json(insertappt);
     }
     catch(err){
