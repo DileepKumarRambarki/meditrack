@@ -25,6 +25,27 @@ const Symptom = () => {
   const [gender, setGender] = useState("Male");
   const [specialist, setSpecialist] = useState("");
   const [selected, setSelected] = useState(null);
+  const specialization={
+    "Dermatologist": "Dermatology",
+    "Allergist": "Dermatology",
+    "Gastroenterologist": "Gastroenterology",
+    "Hepatologist": "Gastroenterology",
+    "Osteopathic": "Orthopedics",
+    "Endocrinologist": "General Medicine",
+    "Pulmonologist": "Pulmonology",
+    "Cardiologist": "Cardiology",
+    "Neurologist": "Neurology",
+    "Internal Medcine": "General Medicine",
+    "Pediatrician": "Pediatrics",
+    "Common Cold": "General Medicine",
+    "Phlebologist": "Neurology",
+    "Osteoarthristis": "Orthopedics",
+    "Rheumatologists": "Orthopedics",
+    "Otolaryngologist": "ENT",
+    "Dermatologists": "Dermatology",
+    "Gynecologist": "Gynecology"
+  }
+  
   const navigate=useNavigate();
   const handlePrompt = (msg, gen) => {
     setPrompt(msg);
@@ -39,9 +60,9 @@ const Symptom = () => {
           "http://localhost:3000/getSpecialist",
           { prompt }
         );
-        console.log(resp.data.specialist);
-        setSpecialist(resp.data.specialist);
-        setSelected(resp.data.specialist);
+        console.log(specialization[resp.data.specialist]);
+        setSpecialist(specialization[resp.data.specialist]);
+        setSelected(specialization[resp.data.specialist]);
       } catch (error) {
         console.error("Error fetching specialist:", error);
       }
@@ -56,7 +77,7 @@ const Symptom = () => {
     const timer=setTimeout(()=>{
       // console.log('specialist:',specialist);
       navigate("/nearbyhos",{state:{specialist:specialist}});
-    },5000);
+    },3000);
     return ()=>clearTimeout(timer);
   },[selected,navigate]);
   return (

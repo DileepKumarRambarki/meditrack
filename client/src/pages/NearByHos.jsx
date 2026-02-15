@@ -1140,6 +1140,7 @@ const NearbyHos=(props)=>{
                     mobileno={hospital.phone_number}
                     coordinates={hospital.place_link}
                     dept={dept}
+                    hospitalId={hospital.business_id}
                     />)
             })}
         </div>

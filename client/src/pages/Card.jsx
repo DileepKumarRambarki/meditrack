@@ -8,13 +8,17 @@ import Typography from '@mui/joy/Typography';
 import Location from '@mui/icons-material/LocationOnSharp';
 import { MdCall } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
+import Rating from '@mui/material/Rating';
+import Stack from '@mui/material/Stack';
+import {useState} from "react";
 export default function BasicCard(props) {
   const navigate=useNavigate();
-  const handleAppointment=(hospital)=>{
+  const [hospital,setHospital]=useState(props);
+  const handleAppointment=()=>{
     navigate("/book-appointment",{state:{hospital:hospital,dept:props.dept}});
   }
   return (
-    <Card sx={{ width: props.sidebar?"400px":"320px" ,":hover":{transform:"scale(1.1)"},transition:"all 0.3s ease-in"}}>
+    <Card sx={{ width: props.sidebar?"410px":"330px" ,":hover":{transform:"scale(1.1)"},transition:"all 0.3s ease-in"}}>
       <div>
         <Typography level="title-lg">{props.name}</Typography>
         <Typography level="body-sm">{props.district}</Typography>
@@ -39,8 +43,10 @@ export default function BasicCard(props) {
       </AspectRatio>
       <CardContent orientation="horizontal">
         <div>
-          <Typography level="body-xs">Rating:{props.rating}</Typography>
-          <Typography sx={{ fontSize: 'lg', fontWeight: 'lg' }}><MdCall/>{props.mobileno}</Typography>
+          {/* <Typography level="body-xs">Rating:{props.rating}</Typography> */}
+          
+          <Rating name="half-rating-read" defaultValue={props.rating} precision={0.1} readOnly />
+          <Typography sx={{ fontSize: 'lg', fontWeight: 'lg', width:'200px' }}><MdCall style={{marginRight:'10px'}} />{props.mobileno}</Typography>
         </div>
         <Button
           variant="solid"
@@ -48,7 +54,7 @@ export default function BasicCard(props) {
           color="primary"
           aria-label="Explore Bahamas Islands"
           sx={{ ml: 'auto', alignSelf: 'center', fontWeight: 600 }}
-          onClick={()=>handleAppointment(props.name)}
+          onClick={()=>handleAppointment()}
         >
           Book Appointement
         </Button>

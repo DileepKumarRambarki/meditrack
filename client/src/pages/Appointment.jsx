@@ -19,6 +19,7 @@ export default function ResponsiveDatePickers() {
   const [dept,setDept]=useState(location.state.dept);
   // const [time,setTime]=useState(null);
   const [ appointment,setAppointment]=useState({date:"",time:"",hospital:hospital,department:dept, usermail:usermail, username:""});
+  console.log(appointment);
   // const [bgcolor,setbgcolor]=useState("white");
   const timeslots=["10:00AM-10:30AM","10:30AM-11:00AM","11:30AM-12:00PM","12:00PM-12:30PM","02:00PM-02:30PM","02:30PM-03:00PM","03:00PM-03:30PM","03:30PM-04:00PM"];
   const [availableSlots,setAvailableslots]=useState([]);
@@ -32,17 +33,16 @@ export default function ResponsiveDatePickers() {
    }
    else{
     setColor(index);
-    setAppointment({...appointment,time:timeslots[index]});
+    setAppointment(appt=>{return {...appt,time:timeslots[index]}});
    }
   }
   const handleSnack=async()=>{
     setSnack(true);
     const appt=await axios.post("http://localhost:3000/appointments",appointment);
-    console.log(appointment);
   }
   const handleDate=async ()=>{
-    const response=await axios.post("http://localhost:3000/freeslots",{date:appointment.date,hospital:hospital});
-    console.log(response.data);
+    const response=await axios.post("http://localhost:3000/freeslots",{date:appointment.date,hospitalId:hospital.hospitalId});
+    // console.log(response.data);
 
     const fslots=response.data.map(item=>item.time);
         setFreeslots(fslots);
@@ -51,13 +51,14 @@ export default function ResponsiveDatePickers() {
       return !fslots.includes(slot)
     });
     setAvailableslots(availslots);
+    setColor(-1);
   }
   return (
     <div id={styles.container}>
     <LocalizationProvider dateAdapter={AdapterDayjs}>
           <StaticDatePicker  
           sx={{color:"black", display:"flex",flexDirection:"column",alignItems:"flex-start",width:"320px"}}
-          onChange={(newDate)=>setAppointment({...appointment,date:newDate.format("dddd, MMMM DD YYYY")})}
+          onChange={(newDate)=>{setAppointment({...appointment,date:newDate.format("dddd, MMMM DD YYYY")});setColor(-1);setSnack(false);}}
           onAccept={handleDate}
           />
     </LocalizationProvider>

@@ -1,11 +1,28 @@
 const appointments=require("../models/appointmentSchema")
 const users=require('../models/userschema');
+const hospitals=require("../models/hospitalSchema")
+const {addHospital,getHospital}=require("../controller/hospitalController");
+const {encodeBid}=require("../utils/Translator");
 const addAppointment=async(req,res)=>{
     try{
         const appt=req.body;
-        const {usermail}=appt;
-        const userresp=await users.findOne({usermail:usermail},{username:1});
-       const insertappt= await appointments.create({...appt,username:userresp.username});
+        const hid=appt.hospital.hospitalId;
+        const hospitalId=encodeBid(hid);
+        const hptl=await getHospital(hospitalId);
+        if(!hptl){
+            const {hospital}=req.body;
+           await addHospital({hospitalId:hospitalId,hospital:hospital.name,bid:hospital.hospitalId,mobile:hospital.mobileno,address:hospital.district});
+        }
+        const userresp=await users.findOne({usermail:appt.usermail},{username:1});
+       const insertappt= await appointments.create(
+        {date:appt.date,
+        time:appt.time,
+        department:appt.department,
+        hospital:appt.hospital.name,
+        usermail:appt.usermail,
+        username:userresp.username,
+        hospitalId:hospitalId
+        });
        res.json(insertappt);
     }
     catch(err){
@@ -31,10 +48,12 @@ const getAppointments=async(req,res)=>{
 }
 const freeslots=async(req,res)=>{
     try{
-        console.log(req.body);
-        const date=req.body;
-        const slots=await appointments.find(date,{time:1,_id:0});
-        console.log(slots);
+        // console.log(req.body);
+        const {date}=req.body;
+        const hid=req.body.hospitalId;
+        const hospitalId=encodeBid(hid);
+        const slots=await appointments.find({hospitalId:hospitalId,date:date},{time:1,_id:0});
+        // console.log(slots);
         res.json(slots);
     }
     catch(err){
