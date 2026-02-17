@@ -3,20 +3,37 @@ import styled from 'styled-components';
 import axios from "axios";
 import {useAuth} from '../utils/Authcontext';
 const AppointmentGrid=()=>{
-  const usermail=useAuth().usermail;
+  const usermail=useAuth().userId;
   const [appointments,setAppointments]=useState([{time:"",date:"",hospital:""}]);
-  const getAppointments=async()=>{
-    const appointmentList=await axios.post("http://localhost:3000/getappointments",{usermail:usermail});
-    console.log("appintment list: ",appointmentList.data);
-    setAppointments(appointmentList.data.map(item=>{
-      return {
-        time:item.time,
-        date:item.date,
-        hospital:item.hospital
-      }
-    
-    }));
-  }
+  const getAppointments = async () => {
+    const appointmentList = await axios.post(
+      "http://localhost:3000/getappointments",
+      { usermail: usermail }
+    );
+  
+    console.log("appointment list: ", appointmentList.data);
+  
+    // Set today to midnight
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+  
+    const upcomingAppointments = appointmentList.data
+      .filter(item => {
+        const appointmentDate = new Date(item.date);
+        return appointmentDate >= today;
+      })
+      .sort((a, b) => {
+        return new Date(a.date) - new Date(b.date);
+      })
+      .map(item => ({
+        time: item.time,
+        date: item.date,
+        hospital: item.hospital
+      }));
+  
+    setAppointments(upcomingAppointments);
+  };
+  
   useEffect(()=>{
     getAppointments();
   },[]);

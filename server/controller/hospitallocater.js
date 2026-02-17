@@ -9,7 +9,7 @@ const options = {
     query: 'hospitals',
     lat: lat,
     lng: lan,
-    limit: '10',
+    limit: '20',
     language: 'en',
     region: 'in',
     extract_emails_and_contacts: 'true'

@@ -1102,35 +1102,35 @@ const NearbyHos=(props)=>{
             }
         ]
     }.data;
-    // const getLocation=()=>{
-    //     if(navigator.geolocation){
-    //         navigator.geolocation.getCurrentPosition(showLocation);
-    //     }
-    //     else{
-    //         console.log("error fetching coordinates");
+    const getLocation=()=>{
+        if(navigator.geolocation){
+            navigator.geolocation.getCurrentPosition(showLocation);
+        }
+        else{
+            console.log("error fetching coordinates");
            
-    //     }
-    // }
-    // const showLocation=(position)=>{
-    //     setCoordinates({lat:position.coords.latitude,lan:position.coords.longitude});
-    //     console.log("coordinates fetched...");
-    //     localStorage.setItem("latitude",position.coords.latitude);
-    //     localStorage.setItem("longitude",position.coords.longitude);
-    // }
-    // const getHospitals=async()=>{
-    //     const response=await axios.post("http://localhost:3000/hospitals/",coordinates);
-    //     setHospitals(response["data"].data);
-    // }
-    // useEffect(()=>{
-    //     getLocation();
-    // },[ ]);
-    // useEffect(()=>{
-    //      getHospitals()
+        }
+    }
+    const showLocation=(position)=>{
+        setCoordinates({lat:position.coords.latitude,lan:position.coords.longitude});
+        console.log("coordinates fetched...",coordinates);
+        localStorage.setItem("latitude",position.coords.latitude);
+        localStorage.setItem("longitude",position.coords.longitude);
+    }
+    const getHospitals=async()=>{
+        const response=await axios.post("http://localhost:3000/hospitals/",coordinates);
+        setHospitals(response["data"].data);
+    }
+    useEffect(()=>{
+        getLocation();
+    },[ ]);
+    useEffect(()=>{
+         getHospitals()
 
-    //  },[coordinates]);
+     },[coordinates]);
      return(
         <div id="hospitallist" style={{display:"flex", gap:"10px", flexWrap:"wrap", justifyContent:"space-evenly"}}>
-            {  data.map((hospital,index)=>{
+            {  hospitals.map((hospital,index)=>{
                 return (<Card key={index} 
                     name={hospital.name}
                     district={hospital.district}

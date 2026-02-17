@@ -49,10 +49,10 @@ const getAppointments=async(req,res)=>{
 const freeslots=async(req,res)=>{
     try{
         // console.log(req.body);
-        const {date}=req.body;
+        const {date,department}=req.body;
         const hid=req.body.hospitalId;
         const hospitalId=encodeBid(hid);
-        const slots=await appointments.find({hospitalId:hospitalId,date:date},{time:1,_id:0});
+        const slots=await appointments.find({hospitalId:hospitalId,date:date,department:department},{time:1,_id:0});
         // console.log(slots);
         res.json(slots);
     }
@@ -60,6 +60,16 @@ const freeslots=async(req,res)=>{
         console.log("ERROR FETCHING FREE TIME SLOTS",err);
     }
 }
+const getAppointmentsByHidDate=async(req,res)=>{
+    try{
+        const response=await appointments.find(req.body);
+        res.json(response);
+    }
+    catch(err){
+        console.log('ERROR GETTING HOSPITALS BY HID DATE');
+    }
+}
 module.exports.addAppointment=addAppointment;
 module.exports.freeslots=freeslots;
 module.exports.getAppointments=getAppointments;
+module.exports.getAppointmentsByHidDate=getAppointmentsByHidDate;

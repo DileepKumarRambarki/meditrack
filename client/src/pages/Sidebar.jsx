@@ -39,10 +39,10 @@ const handleSidebar=()=>{
 
 export default function Sidebar(props) {
   const [open, setOpen] = React.useState(true);
+  const options=props.options;
   useEffect(() => {
     setOpen(props.open);
   }, [props.open]);
-  console.log("in sidebar");
   const [type, setType] = React.useState('Guesthouse');
   const [amenities, setAmenities] = React.useState([0, 6]);
   const sidebar=useRef(null);
@@ -68,29 +68,7 @@ export default function Sidebar(props) {
                   id={styles.sidebar}
                   ref={sidebar}
                 >
-                  {[
-                    {
-                      name: 'Nearby hospitals',
-                      icon: <HospitalIcon />,
-                      url:"nearbyhos",
-                    },
-                    {
-                      name: 'Your reports',
-                      icon: <ReportIcon />,
-                      url:"lab-reports"
-                    },
-                    {
-                      name: 'Appointments',
-                      icon: <AppointIcon />,
-                      url:"appointments"
-                    },
-                    {
-                      name: 'Labaratory',
-                      icon: <LabIcon />,
-                      url:"lab"
-                    },
-                    
-                  ].map((item) => (
+                  {options.map((item) => (
                     <Link to={item.url} style={{textDecoration:"none"}}>
                     <Card
                       key={item.name}

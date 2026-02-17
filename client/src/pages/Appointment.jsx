@@ -12,7 +12,8 @@ import { useLocation } from 'react-router-dom';
 import axios from "axios"
 import { useAuth } from '../utils/Authcontext';
 export default function ResponsiveDatePickers() {
-  const {usermail}=useAuth();
+  const {userId}=useAuth();
+  const usermail=userId;
   const location=useLocation();
   // const [date, setDate]=useState(null);
   const [hospital,setHospital]=useState(location.state.hospital);
@@ -41,7 +42,7 @@ export default function ResponsiveDatePickers() {
     const appt=await axios.post("http://localhost:3000/appointments",appointment);
   }
   const handleDate=async ()=>{
-    const response=await axios.post("http://localhost:3000/freeslots",{date:appointment.date,hospitalId:hospital.hospitalId});
+    const response=await axios.post("http://localhost:3000/freeslots",{date:appointment.date,hospitalId:hospital.hospitalId,department:dept});
     // console.log(response.data);
 
     const fslots=response.data.map(item=>item.time);
@@ -76,7 +77,7 @@ export default function ResponsiveDatePickers() {
       }
     </div>
     <div id={styles.button}>
-    <Snack open={snackOpen}/>
+    <Snack open={snackOpen}   />
     <Button
       onClick={handleSnack}
       sx={{backgroundColor:"#1976d2",color:"white"}}

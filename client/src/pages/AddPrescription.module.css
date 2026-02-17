@@ -1,0 +1,89 @@
+.container {
+    min-height: 100vh;
+    background: linear-gradient(to right, #e3f2fd, #f1f8ff);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .card {
+    background: #ffffff;
+    padding: 40px;
+    width: 500px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  }
+  
+  .card h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #1a237e;
+  }
+  
+  .card input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    background-color: white;
+    color: black;
+
+  }
+  
+  .card input:focus {
+    outline: none;
+    border-color: #1976d2;
+    box-shadow: 0 0 5px rgba(25, 118, 210, 0.3);
+  }
+  
+  .medicineRow {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .medicineRow input {
+    flex: 1;
+  }
+  
+  .addBtn {
+    background: #0288d1;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  
+  .addBtn:hover {
+    background: #0277bd;
+  }
+  
+  .submitBtn {
+    background: #2e7d32;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 15px;
+  }
+  
+  .submitBtn:hover {
+    background: #1b5e20;
+  }
+  
+  .removeBtn {
+    background: #e53935;
+    color: white;
+    border: none;
+    padding: 0 10px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  

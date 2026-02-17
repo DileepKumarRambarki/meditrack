@@ -44,13 +44,14 @@ export default function Snack(props) {
     variant="filled"
     icon={<CheckCircleIcon fontSize="inherit" />} // ✅ Tick mark icon
     sx={{
-      backgroundColor: "rgb(252, 70, 100)",
+      backgroundColor: "green",
       color: "white",
       fontSize: "16px",
       fontWeight: "bold",
       display: "flex",
       alignItems: "center",
       gap: "8px", // Space between icon & text
+      
     }}
   >
     Your appointment was confirmed
