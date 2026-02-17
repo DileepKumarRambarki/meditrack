@@ -9,7 +9,7 @@ Meditrack is a full-stack application designed to streamline and manage various 
 ## Features
 
 - **User Authentication**: Secure sign-up and login using encrypted passwords.
-- **Medical Records Management**: 
+- **Medical Records Management**:
   - Store, retrieve, and manage lab reports and prescriptions.
   - Add new laboratory records and prescription details.
 - **Appointment Booking**:
@@ -49,30 +49,37 @@ meditrack/
 ## Getting Started
 
 1. **Clone the repository**:
+
    ```sh
    git clone https://github.com/DileepKumarRambarki/meditrack.git
    ```
-
 2. **Install dependencies** for both client and server:
+
    ```sh
    cd meditrack/client
    npm install
    cd ../server
    npm install
    ```
-
 3. **Set up environment variables** as needed for MongoDB and other configs.
-
 4. **Run the application**:
+
    - Start the server:
+
      ```sh
      cd server
      npm start
      ```
    - Start the client:
+
      ```sh
      cd ../client
      npm run dev
+     ```
+   - Start the ML model:
+
+     ```sh
+     uvicorn app:app --reload
      ```
 
 ## Contributing
