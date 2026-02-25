@@ -1,20 +1,15 @@
 import {
-    TextField,
-    Button,
-    Box,
-    Typography,
-    Container,
-    CssBaseline,
-  } from "@mui/material";
+  Box, Button, Container,
+  CssBaseline, TextField, Typography
+} from "@mui/material";
+import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { Link } from "react-router-dom";
-import { useState } from "react";
 import axios from "axios";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../utils/Authcontext";
-import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
     const [gender,setGender]=useState("male");
@@ -43,7 +38,10 @@ const Signup = () => {
         console.log("user already exists");
       }
       else{
-        login(usermail);
+        login({
+          role: "patient",
+          userId: usermail,
+        });
         navigate("/");
       }
     };

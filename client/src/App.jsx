@@ -20,26 +20,35 @@ function App() {
     <>
       <AuthProvider>
         <Router>
-          <Routes>
-            <Route path='/login' element={<Login/>}/>
-            <Route path="/signup" element={<Signup/>}/>
-            <Route element={<ProtectedRoute allowedRole="patient" />}>
-              <Route path="/" element={<Homepage/>}>
-                <Route path='/' element={<Symptom/>} />
-                <Route path="/nearbyhos" element={<NearbyHos/>} />
-                <Route path="/lab-reports" element={<LabReport/>} />
-                <Route path='/prescription' element={<ViewPrescription/>} />
-                <Route path="/book-appointment" element={<Appointment/>} />
-                <Route path="/appointments" element={<AppointmentGrid/>} />
-              </Route>
-            </Route>
-            <Route element={<ProtectedRoute allowedRole="hospital" />}>
-              <Route path="/hospital" element={<HospitalHome />}>
-                <Route path='/hospital/dashboard' element={<Dashboard/>} />
-                <Route path='/hospital/addpredcription' element={<AddPrescription/>} />
-              </Route>
-            </Route>
-          </Routes>
+        <Routes>
+  {/* Public Routes */}
+  <Route path="/login" element={<Login />} />
+  <Route path="/signup" element={<Signup />} />
+
+  {/* Patient Protected Routes */}
+  <Route element={<ProtectedRoute allowedRole="patient" />}>
+    <Route path="/" element={<Homepage />}>
+      <Route index element={<Symptom />} />   {/* default page */}
+      <Route path="nearbyhos" element={<NearbyHos />} />
+      <Route path="lab-reports" element={<LabReport />} />
+      <Route path="prescription" element={<ViewPrescription />} />
+      <Route path="book-appointment" element={<Appointment />} />
+      <Route path="appointments" element={<AppointmentGrid />} />
+    </Route>
+  </Route>
+
+  {/* Hospital Protected Routes */}
+  <Route element={<ProtectedRoute allowedRole="hospital" />}>
+    <Route path="/hospital" element={<HospitalHome />}>
+      <Route index element={<Dashboard />} />
+      <Route path="dashboard" element={<Dashboard />} />
+      <Route path="addprescription" element={<AddPrescription />} />
+    </Route>
+  </Route>
+
+  {/* Catch All Route */}
+  <Route path="*" element={<Login />} />
+</Routes>
         </Router>
       </AuthProvider>
     </>

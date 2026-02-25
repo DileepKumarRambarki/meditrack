@@ -27,9 +27,9 @@ const Symptom = () => {
   const [selected, setSelected] = useState(null);
   const specialization={
     "Dermatologist": "Dermatology",
-    "Allergist": "Dermatology",
+    "Allergist": "General Medicine",
     "Gastroenterologist": "Gastroenterology",
-    "Hepatologist": "Gastroenterology",
+    "Hepatologist": "Hepatology",
     "Osteopathic": "Orthopedics",
     "Endocrinologist": "General Medicine",
     "Pulmonologist": "Pulmonology",
@@ -40,7 +40,7 @@ const Symptom = () => {
     "Common Cold": "General Medicine",
     "Phlebologist": "Neurology",
     "Osteoarthristis": "Orthopedics",
-    "Rheumatologists": "Orthopedics",
+    "Rheumatologist": "Orthopedics",
     "Otolaryngologist": "ENT",
     "Dermatologists": "Dermatology",
     "Gynecologist": "Gynecology"
@@ -61,8 +61,8 @@ const Symptom = () => {
           { prompt }
         );
         console.log(specialization[resp.data.specialist]);
-        setSpecialist(specialization[resp.data.specialist]);
-        setSelected(specialization[resp.data.specialist]);
+        setSpecialist(specialization[resp.data.specialist]||"General Medicine");
+        setSelected(specialization[resp.data.specialist]||"General Medicine");
       } catch (error) {
         console.error("Error fetching specialist:", error);
       }
@@ -76,7 +76,7 @@ const Symptom = () => {
     if(!selected) return;
     const timer=setTimeout(()=>{
       // console.log('specialist:',specialist);
-      navigate("/nearbyhos",{state:{specialist:specialist}});
+      navigate("/nearbyhos",{state:{specialist:specialist||"General Medicine"}});
     },3000);
     return ()=>clearTimeout(timer);
   },[selected,navigate]);

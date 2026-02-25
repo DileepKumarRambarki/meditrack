@@ -42,7 +42,7 @@
     border: none;
     outline: none;
     color: #ffffff;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     padding: 0.7rem 0;
   }
   
@@ -54,7 +54,7 @@
   .buildActions {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     margin-top: 0.9rem;
   }
   
@@ -98,3 +98,8 @@
   .buildTitle span {
     color: #0b75c9;
   }  
+
+  .inputbox{
+    display: flex;
+    align-items: center;
+  }

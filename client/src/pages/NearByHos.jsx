@@ -2,12 +2,19 @@ import { useEffect, useState } from "react";
 import {useLocation} from "react-router-dom";
 import axios from "axios"
 import Card from "./Card"
+import Loader from "./Loader";
 const NearbyHos=(props)=>{
     // console.log("near by hos");
     const [coordinates,setCoordinates]=useState({lat:"",lan:""});
     const [hospitals,setHospitals]=useState([]);
     const location=useLocation();
-    const [dept,setDept]=useState(location.state.specialist||'General');
+    const [loading, setLoading] = useState(true);
+    const specialist =
+    location.state && location.state.specialist
+        ? location.state.specialist
+        : "General Medicine";
+
+    const [dept, setDept] = useState(specialist);
     let data={
         "status": "OK",
         "request_id": "7d5a3b0b-c633-4080-8bf8-61038e46a28d",
@@ -1117,33 +1124,62 @@ const NearbyHos=(props)=>{
         localStorage.setItem("latitude",position.coords.latitude);
         localStorage.setItem("longitude",position.coords.longitude);
     }
-    const getHospitals=async()=>{
-        const response=await axios.post("http://localhost:3000/hospitals/",coordinates);
-        setHospitals(response["data"].data);
-    }
-    useEffect(()=>{
+    const getHospitals = async () => {
+        try {
+          setLoading(true); // ✅ start loader
+          const response = await axios.post(
+            "http://localhost:3000/hospitals/",
+            coordinates
+          );
+    
+          setHospitals(response.data.data);
+        } catch (error) {
+          console.error("Error fetching hospitals:", error);
+        } finally {
+          setLoading(false); // ✅ stop loader
+        }
+      };
+    
+      useEffect(() => {
         getLocation();
-    },[ ]);
-    useEffect(()=>{
-         getHospitals()
-
-     },[coordinates]);
-     return(
-        <div id="hospitallist" style={{display:"flex", gap:"10px", flexWrap:"wrap", justifyContent:"space-evenly"}}>
-            {  hospitals.map((hospital,index)=>{
-                return (<Card key={index} 
-                    name={hospital.name}
-                    district={hospital.district}
-                    rating={hospital.rating}
-                    url={hospital.photos_sample[0].photo_url}
-                    sidebar={props.sidebar}
-                    mobileno={hospital.phone_number}
-                    coordinates={hospital.place_link}
-                    dept={dept}
-                    hospitalId={hospital.business_id}
-                    />)
-            })}
-        </div>
-     )
-}
-export default NearbyHos;
+      }, []);
+    
+      useEffect(() => {
+        if (coordinates.lat && coordinates.lan) {
+          getHospitals();
+        }
+      }, [coordinates]);
+    
+      return (
+        <>
+          {loading && <Loader />}  {/* ✅ Loader shown while loading */}
+    
+          <div
+            id="hospitallist"
+            style={{
+              display: "flex",
+              gap: "10px",
+              flexWrap: "wrap",
+              justifyContent: "space-evenly",
+            }}
+          >
+            {hospitals.map((hospital, index) => (
+              <Card
+                key={index}
+                name={hospital.name}
+                district={hospital.district}
+                rating={hospital.rating}
+                url={hospital.photos_sample?.[0]?.photo_url}
+                sidebar={props.sidebar}
+                mobileno={hospital.phone_number}
+                location={hospital.place_link}
+                dept={dept}
+                hospitalId={hospital.business_id}
+              />
+            ))}
+          </div>
+        </>
+      );
+    };
+    
+    export default NearbyHos;
