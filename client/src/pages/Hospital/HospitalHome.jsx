@@ -1,11 +1,10 @@
-import Navbar from "../Navbar";
-import Sidebar from "../Sidebar";
+import ReportIcon from '@mui/icons-material/AssignmentTurnedIn';
 import { useEffect, useRef, useState } from "react";
+import { TbCalendarStats } from "react-icons/tb";
 import { Outlet } from "react-router-dom";
 import styles from "../Homepage.module.css";
-import { TbCalendarStats } from "react-icons/tb";
-import ReportIcon from '@mui/icons-material/AssignmentTurnedIn';
-import Dashboard from "./Dashboard";
+import Navbar from "../Navbar";
+import Sidebar from "../Sidebar";
 const HospitalHome=()=>{
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -21,7 +20,7 @@ const HospitalHome=()=>{
         {
           name: 'upload reports',
           icon: <ReportIcon />,
-          url:"addpredcription"
+          url:"addprescription"
         },
       ];
 
