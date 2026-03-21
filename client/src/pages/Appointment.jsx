@@ -1,91 +1,242 @@
 import * as React from 'react';
-import dayjs from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
-import { useState ,useEffect,useRef} from 'react';
+import { useState, useEffect } from 'react';
 import styles from "./Appointment.module.css"
-import  Snack  from './Snack';
+import Snack from './Snack';
 import { Button } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import axios from "axios"
 import { useAuth } from '../utils/Authcontext';
+
 export default function ResponsiveDatePickers() {
-  const {userId}=useAuth();
-  const usermail=userId;
-  const location=useLocation();
-  // const [date, setDate]=useState(null);
-  const [hospital,setHospital]=useState(location.state.hospital);
-  const [dept,setDept]=useState(location.state.dept);
-  // const [time,setTime]=useState(null);
-  const [ appointment,setAppointment]=useState({date:"",time:"",hospital:hospital,department:dept, usermail:usermail, username:""});
-  console.log(appointment);
-  // const [bgcolor,setbgcolor]=useState("white");
-  const timeslots=["10:00AM-10:30AM","10:30AM-11:00AM","11:30AM-12:00PM","12:00PM-12:30PM","02:00PM-02:30PM","02:30PM-03:00PM","03:00PM-03:30PM","03:30PM-04:00PM"];
-  const [availableSlots,setAvailableslots]=useState([]);
-  const [freeslots,setFreeslots]=useState([]);
-  const [snackOpen,setSnack]=useState(false);
-  const [color,setColor]=useState(-1);
-  const timediv=useRef(null);
-  const handleTimeColor=(index)=>{
-   if(index==color){
-    setColor(-1);
-   }
-   else{
-    setColor(index);
-    setAppointment(appt=>{return {...appt,time:timeslots[index]}});
-   }
-  }
-  const handleSnack=async()=>{
-    setSnack(true);
-    const appt=await axios.post("http://localhost:3000/appointments",appointment);
-  }
-  const handleDate=async ()=>{
-    const response=await axios.post("http://localhost:3000/freeslots",{date:appointment.date,hospitalId:hospital.hospitalId,department:dept});
-    // console.log(response.data);
 
-    const fslots=response.data.map(item=>item.time);
-        setFreeslots(fslots);
+  const { userId } = useAuth();
+  const usermail = userId;
 
-    const availslots=timeslots.filter((slot)=>{
-      return !fslots.includes(slot)
-    });
-    setAvailableslots(availslots);
-    setColor(-1);
-  }
-  return (
-    <div id={styles.container}>
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <StaticDatePicker  
-          sx={{color:"black", display:"flex",flexDirection:"column",alignItems:"flex-start",width:"320px"}}
-          onChange={(newDate)=>{setAppointment({...appointment,date:newDate.format("dddd, MMMM DD YYYY")});setColor(-1);setSnack(false);}}
-          onAccept={handleDate}
-          />
-    </LocalizationProvider>
-    <div id={styles.box2}>
-    <div id={styles.timebox}>
-      {
-        availableSlots.length>0 && availableSlots.map((time,index)=>{
-          
-          return(
-      <div id={styles.time} key={index} onClick={()=>handleTimeColor(index)}
-      style={{backgroundColor:index===color?"rgb(252, 70, 100)":"white"}}>
-        {time}
-      </div>)
-        })
+  const location = useLocation();
+
+  const [hospital] = useState(location.state.hospital);
+  const [dept] = useState(location.state.dept);
+
+  const defaultTimetable = {
+    Dermatology: { doctor:"", time:"10:00AM-12:00PM", patientCount:5 },
+    "General Medicine": { doctor:"", time:"11:00AM-01:00PM", patientCount:5 },
+    Gastroenterology: { doctor:"", time:"12:00PM-02:00PM", patientCount:5 },
+    Hepatology: { doctor:"", time:"01:00PM-03:00PM", patientCount:5 },
+    Orthopedics: { doctor:"", time:"02:00PM-04:00PM", patientCount:5 },
+    Pulmonology: { doctor:"", time:"03:00PM-05:00PM", patientCount:5 },
+    Cardiology: { doctor:"", time:"04:00PM-06:00PM", patientCount:5 },
+    Neurology: { doctor:"", time:"05:00PM-07:00PM", patientCount:5 },
+    Pediatrics: { doctor:"", time:"06:00PM-08:00PM", patientCount:5 },
+    ENT: { doctor:"", time:"07:00PM-09:00PM", patientCount:5 },
+    Gynecology: { doctor:"", time:"08:00PM-10:00PM", patientCount:5 },
+    Nephrology: { doctor:"", time:"08:00PM-10:00PM", patientCount:5 }
+  };
+
+  const [timetable, setTimetable] = useState(defaultTimetable);
+
+  const [appointment, setAppointment] = useState({
+    date: "",
+    time: "",
+    hospital: hospital,
+    department: dept,
+    usermail: usermail,
+    username: "",
+    doctor:" ",
+  });
+
+  const [remainingSlots, setRemainingSlots] = useState(0);
+  const [snackOpen, setSnack] = useState(false);
+
+  /* FETCH TIMETABLE */
+
+  useEffect(() => {
+
+    const fetchTimetable = async () => {
+
+      try {
+
+        const res = await axios.get(
+          `http://localhost:3000/hospital/gettimetable/${hospital.hospitalId}`
+        );
+
+        if (res.data?.timetable) {
+          setTimetable(res.data.timetable);
+        }
+
+      } catch (err) {
+
+        console.log("Using default timetable", err);
+
       }
+
+    };
+
+    fetchTimetable();
+
+  }, [hospital.hospitalId]);
+
+
+
+  /* BOOK APPOINTMENT */
+
+  const handleSnack = async () => {
+
+    if (!appointment.time) {
+      alert("Please select a date first");
+      return;
+    }
+
+    try {
+
+      await axios.post(
+        "http://localhost:3000/appointments",
+        appointment
+      );
+
+      setSnack(true);
+
+    } catch (err) {
+
+      console.log("BOOKING ERROR", err);
+
+    }
+
+  };
+
+
+
+  /* HANDLE DATE SELECTION */
+
+  const handleDate = async () => {
+
+    try {
+
+      const response = await axios.post(
+        "http://localhost:3000/freeslots",
+        {
+          date: appointment.date,
+          hospitalId: hospital.hospitalId,
+          department: dept
+        }
+      );
+
+      const booked = response.data.booked;
+
+      const deptData = timetable?.[dept];
+
+      if (!deptData) {
+        console.log("Department not found:", dept);
+        return;
+      }
+
+      const maxSlots = deptData.patientCount || 5;
+
+      const remaining = maxSlots - booked;
+
+      setRemainingSlots(Math.max(remaining, 0));
+
+      setAppointment(appt => ({
+        ...appt,
+        time: deptData.time,
+        doctor:timetable?.[dept]?.doctor || "Doctor not assigned",
+      }));
+
+    } catch (err) {
+
+      console.log("ERROR FETCHING SLOTS", err);
+
+    }
+
+  };
+
+
+
+  return (
+
+    <div id={styles.container}>
+
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+
+        <StaticDatePicker
+          sx={{
+            color:"black",
+            display:"flex",
+            flexDirection:"column",
+            alignItems:"flex-start",
+            width:"320px"
+          }}
+
+          onChange={(newDate)=>{
+
+            setAppointment({
+              ...appointment,
+              date:newDate.format("dddd, MMMM DD YYYY")
+            });
+
+            setSnack(false);
+
+          }}
+
+          onAccept={handleDate}
+
+        />
+
+      </LocalizationProvider>
+
+
+      <div id={styles.box2}>
+
+        <div id={styles.timebox}>
+
+          <div
+            className={`${styles.slotCard} ${remainingSlots === 0 ? styles.blockedCard : ""}`}
+          >
+
+            <div className={styles.slotTime}>
+              {timetable?.[dept]?.time || "No slot"}
+            </div>
+
+            <div className={styles.slotDept}>
+              {dept}
+            </div>
+
+            <div className={styles.slotDoctor}>
+              Dr. {timetable?.[dept]?.doctor || "Doctor not assigned"}
+            </div>
+
+            <div className={styles.slotFree}>
+              {remainingSlots === 0
+                ? "NO SLOTS"
+                : `${remainingSlots} slots left`}
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div id={styles.button}>
+
+          <Snack open={snackOpen} />
+
+          <Button
+            onClick={handleSnack}
+            sx={{
+              backgroundColor:"#1976d2",
+              color:"white"
+            }}
+          >
+            Book
+          </Button>
+
+        </div>
+
+      </div>
+
     </div>
-    <div id={styles.button}>
-    <Snack open={snackOpen}   />
-    <Button
-      onClick={handleSnack}
-      sx={{backgroundColor:"#1976d2",color:"white"}}
-    >
-      Book
-    </Button>
-    </div>
-    </div>
-    </div>
+
   );
 }

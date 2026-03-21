@@ -1,6 +1,5 @@
 const express=require("express")
 const {addUser,authUser}=require("../controller/usercontroller");
-const {addLabRecord,addPresc}=require("../controller/recordsController");
 const hospitalLocator=require("../controller/hospitallocater");
 const {addAppointment,freeslots,getAppointments,getAppointmentsByHidDate}=require("../controller/appointmentController");
 const {getSpecialist} =require("../controller/symptomController");
@@ -10,11 +9,13 @@ const {
     getPrescriptionByHospital,
     deletePrescription,
   }=require('../controller/prescriptionController');
+const {updateHospitalTimetable,getHospitalTimetable} =require("../controller/hospitalController");
+const {createLabReport,getReportsByEmail}=require('../controller/recordsController');
 const router=express.Router();
 router.post("/signup",addUser);
 router.post("/login",authUser);
-router.post("/lab",addLabRecord);
-router.post("/prescription",addPresc);
+// router.post("/lab",addLabRecord);
+// router.post("/prescription",addPresc);
 router.post("/hospitals",hospitalLocator);
 router.post("/appointments",addAppointment);
 router.post("/freeslots",freeslots);
@@ -24,5 +25,9 @@ router.post('/getapptbyhiddate',getAppointmentsByHidDate);
 router.post("/hospital/addpresc", addPrescription);
 router.get("/getpresc/:usermail", getPrescriptionByUser);
 router.get("/hospital/getpresc/:hospitalId",getPrescriptionByHospital);
+router.post('/hospital/updatetimetable',updateHospitalTimetable);
+router.get('/hospital/gettimetable/:hospitalId',getHospitalTimetable);
 router.delete("/delete/:id", deletePrescription);
+router.post('/hospital/addlabreport',createLabReport);
+router.get('/hospital/viewlabreport/:usermail',getReportsByEmail);
 module.exports=router;

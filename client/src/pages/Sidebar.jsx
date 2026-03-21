@@ -68,10 +68,10 @@ export default function Sidebar(props) {
                   id={styles.sidebar}
                   ref={sidebar}
                 >
-                  {options.map((item) => (
-                    <Link to={item.url} style={{textDecoration:"none"}}>
+                  {options.map((item,index) => (
+                    <Link to={item.url} key={index} style={{textDecoration:"none"}}>
                     <Card
-                      key={item.name}
+                      key={index}
                       sx={{
                         boxShadow: 'none',
                         '&:hover': { bgcolor: 'background.level1' ,border:"1px solid black"},

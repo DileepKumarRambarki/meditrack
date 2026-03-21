@@ -16,6 +16,7 @@ const appointmentSchema=new mongoose.Schema({
         type:String,
         required:true,
     },
+    doctor:String,
     time:{
         type:String,
         required:true,

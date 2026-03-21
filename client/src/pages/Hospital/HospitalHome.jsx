@@ -18,9 +18,19 @@ const HospitalHome=()=>{
           url:"dashboard",
         },
         {
-          name: 'upload reports',
+          name: 'upload prescription',
           icon: <ReportIcon />,
           url:"addprescription"
+        },
+        {
+          name: 'upload lab report',
+          icon: <ReportIcon />,
+          url:"addlabreport"
+        },
+        {
+          name: 'Time table',
+          icon: <TbCalendarStats />,
+          url:"timetable"
         },
       ];
 

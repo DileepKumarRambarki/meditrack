@@ -21,7 +21,7 @@ function Homepage() {
         },
         {
           name: 'Your reports',
-          icon: <ReportIcon />,
+          icon: <LabIcon />,
           url:"lab-reports"
         },
         {
@@ -31,7 +31,7 @@ function Homepage() {
         },
         {
           name: 'Prescription',
-          icon: <LabIcon />,
+          icon: <ReportIcon />,
           url:"prescription"
         },
         

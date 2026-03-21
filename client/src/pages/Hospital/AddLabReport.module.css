@@ -1,0 +1,119 @@
+/* Container (full page layout) */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 80px);
+    /* background: linear-gradient(to right, #e6eef5, #cfdce7); */
+  }
+  
+  /* Card */
+  .card {
+    width: 500px;
+    /* background: #f7f7f7; */
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    text-align: center;
+  }
+  
+  /* Heading */
+  .card h2 {
+    margin-bottom: 20px;
+    color: #1f3c88;
+    font-weight: 600;
+  }
+  
+  /* Input fields */
+  .card input,
+  .card textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    outline: none;
+    font-size: 14px;
+    transition: 0.3s;
+    color: black;
+    background-color: white;
+  }
+  
+  .card input:focus,
+  .card textarea:focus {
+    border-color: #1f3c88;
+    box-shadow: 0 0 5px rgba(31, 60, 136, 0.3);
+  }
+  
+  /* Medicine/Test row */
+  .medicineRow {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  /* Inputs inside row */
+  .medicineRow input {
+    flex: 1;
+  }
+  
+  /* Remove button */
+  .removeBtn {
+    background: #ff4d4d;
+    border: none;
+    color: white;
+    font-size: 16px;
+    padding: 0 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .removeBtn:hover {
+    background: #cc0000;
+  }
+  
+  /* Add button */
+  .addBtn {
+    width: 100%;
+    margin-top: 15px;
+    padding: 12px;
+    background: #2d86c9;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    transition: 0.3s;
+  }
+  
+  .addBtn:hover {
+    background: #1c6aa8;
+  }
+  
+  /* Submit button */
+  .submitBtn {
+    width: 100%;
+    margin-top: 15px;
+    padding: 12px;
+    background: #2e7d32;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    transition: 0.3s;
+  }
+  
+  .submitBtn:hover {
+    background: #1b5e20;
+  }
+  
+  /* Subheading */
+  .card h3 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: #333;
+    text-align: left;
+  }

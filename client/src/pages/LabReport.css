@@ -65,3 +65,25 @@ th {
     text-align: center;
     font-size: 14px;
 }
+/* Container to push button right */
+.download-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+  }
+  
+  /* Button style */
+  .download-btn {
+    background: #2e7d32;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.3s;
+  }
+  
+  .download-btn:hover {
+    background: #1b5e20;
+  }

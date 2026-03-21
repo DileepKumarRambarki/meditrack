@@ -21,7 +21,8 @@ const addAppointment=async(req,res)=>{
         hospital:appt.hospital.name,
         usermail:appt.usermail,
         username:userresp.username,
-        hospitalId:hospitalId
+        hospitalId:hospitalId,
+        doctor:appt.doctor,
         });
        res.json(insertappt);
     }
@@ -46,18 +47,23 @@ const getAppointments=async(req,res)=>{
         res.status(500).send("Internal Server Error");
     }
 }
-const freeslots=async(req,res)=>{
-    try{
-        // console.log(req.body);
-        const {date,department}=req.body;
-        const hid=req.body.hospitalId;
-        const hospitalId=encodeBid(hid);
-        const slots=await appointments.find({hospitalId:hospitalId,date:date,department:department},{time:1,_id:0});
-        // console.log(slots);
-        res.json(slots);
+const freeslots = async (req, res) => {
+    try {
+        const { date, department } = req.body;
+        const hid = req.body.hospitalId;
+        const hospitalId = encodeBid(hid);
+
+        const count = await appointments.countDocuments({
+            hospitalId: hospitalId,
+            date: date,
+            department: department
+        });
+
+        res.json({ booked: count });
     }
-    catch(err){
-        console.log("ERROR FETCHING FREE TIME SLOTS",err);
+    catch (err) {
+        console.log("ERROR FETCHING FREE TIME SLOTS", err);
+        res.status(500).json({ error: "Server error" });
     }
 }
 const getAppointmentsByHidDate=async(req,res)=>{

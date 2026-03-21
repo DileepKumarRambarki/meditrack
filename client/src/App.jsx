@@ -1,19 +1,21 @@
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import './App.css'
-import Login from './pages/Login'
-import { BrowserRouter as Router,Routes,Route } from 'react-router-dom'
-import ProtectedRoute from './utils/ProtectedRoute'
-import Homepage from './pages/Homepage'
-import Signup from './pages/Signup'
-import { AuthProvider } from './utils/Authcontext'
-import NearbyHos from './pages/NearByHos'
-import LabReport from './pages/LabCard'
+import AddPrescription from './pages/AddPrescription'
 import Appointment from "./pages/Appointment"
 import AppointmentGrid from './pages/AppointmentGrid'
-import Symptom from './pages/Symptom'
+import Homepage from './pages/Homepage'
 import Dashboard from './pages/Hospital/Dashboard'
 import HospitalHome from './pages/Hospital/HospitalHome'
-import AddPrescription from './pages/AddPrescription'
+import HospitalTimetable from "./pages/Hospital/HospitalTimetable"
+import LabReport from './pages/LabCard'
+import Login from './pages/Login'
+import NearbyHos from './pages/NearByHos'
+import Signup from './pages/Signup'
+import Symptom from './pages/Symptom'
 import ViewPrescription from './pages/ViewPrecription'
+import { AuthProvider } from './utils/Authcontext'
+import ProtectedRoute from './utils/ProtectedRoute'
+import AddLabReport from "./pages/Hospital/AddLabReport"
 function App() {
 
   return (
@@ -43,6 +45,8 @@ function App() {
       <Route index element={<Dashboard />} />
       <Route path="dashboard" element={<Dashboard />} />
       <Route path="addprescription" element={<AddPrescription />} />
+      <Route path='timetable' element={<HospitalTimetable/>} />
+      <Route path='addlabreport' element={<AddLabReport/>} />
     </Route>
   </Route>
 
