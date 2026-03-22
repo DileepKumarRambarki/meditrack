@@ -21,18 +21,22 @@ export default function ResponsiveDatePickers() {
   const [dept] = useState(location.state.dept);
 
   const defaultTimetable = {
-    Dermatology: { doctor:"", time:"10:00AM-12:00PM", patientCount:5 },
-    "General Medicine": { doctor:"", time:"11:00AM-01:00PM", patientCount:5 },
-    Gastroenterology: { doctor:"", time:"12:00PM-02:00PM", patientCount:5 },
-    Hepatology: { doctor:"", time:"01:00PM-03:00PM", patientCount:5 },
-    Orthopedics: { doctor:"", time:"02:00PM-04:00PM", patientCount:5 },
-    Pulmonology: { doctor:"", time:"03:00PM-05:00PM", patientCount:5 },
-    Cardiology: { doctor:"", time:"04:00PM-06:00PM", patientCount:5 },
-    Neurology: { doctor:"", time:"05:00PM-07:00PM", patientCount:5 },
-    Pediatrics: { doctor:"", time:"06:00PM-08:00PM", patientCount:5 },
-    ENT: { doctor:"", time:"07:00PM-09:00PM", patientCount:5 },
-    Gynecology: { doctor:"", time:"08:00PM-10:00PM", patientCount:5 },
-    Nephrology: { doctor:"", time:"08:00PM-10:00PM", patientCount:5 }
+    Dermatology: { doctor:"John", time:"10:00AM-12:00PM", patientCount:5 },
+    "General Medicine": { doctor:"Danny", time:"11:00AM-01:00PM", patientCount:5 },
+    Gastroenterology: { doctor:"Raj", time:"12:00PM-02:00PM", patientCount:5 },
+    Hepatology: { doctor:"Somu", time:"01:00PM-03:00PM", patientCount:5 },
+    Orthopedics: { doctor:"Devara", time:"02:00PM-04:00PM", patientCount:5 },
+    Pulmonology: { doctor:"Varanasi", time:"03:00PM-05:00PM", patientCount:5 },
+    Cardiology: { doctor:"Lucky", time:"04:00PM-06:00PM", patientCount:5 },
+    Neurology: { doctor:"Mahesh", time:"05:00PM-07:00PM", patientCount:5 },
+    Pediatrics: { doctor:"Nani", time:"06:00PM-08:00PM", patientCount:5 },
+    ENT: { doctor:"Arjun", time:"07:00PM-09:00PM", patientCount:5 },
+    Gynecology: { doctor:"Sree leela", time:"08:00PM-10:00PM", patientCount:5 },
+    Nephrology: { doctor:"Prabhas", time:"08:00PM-10:00PM", patientCount:5 },
+    Tricology: { doctor:"Pavan", time:"08:00PM-10:00PM", patientCount:5 },
+    Radiology: { doctor:"Vasikaran", time:"08:00PM-10:00PM", patientCount:5 },
+    Dentist: { doctor:"Vasikaran", time:"08:00PM-10:00PM", patientCount:5 },
+    Ophtamology: { doctor:"Vasikaran", time:"08:00PM-10:00PM", patientCount:5 },
   };
 
   const [timetable, setTimetable] = useState(defaultTimetable);
@@ -61,7 +65,7 @@ export default function ResponsiveDatePickers() {
         const res = await axios.get(
           `http://localhost:3000/hospital/gettimetable/${hospital.hospitalId}`
         );
-
+        // console.log("in appointent.jsx",res.data);
         if (res.data?.timetable) {
           setTimetable(res.data.timetable);
         }

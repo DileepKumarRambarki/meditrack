@@ -82,7 +82,32 @@ const hospitalSchema = new mongoose.Schema({
                 doctor:"",
                 time:"08:00PM-10:00PM",
                 patientCount:5
-            }
+            },
+            "Nephrology":{
+                doctor:"",
+                time:"08:00PM-10:00PM",
+                patientCount:5
+            },
+            "Dentist":{
+                doctor:"",
+                time:"08:00PM-10:00PM",
+                patientCount:5
+            },
+            "Radiology":{
+                doctor:"",
+                time:"08:00PM-10:00PM",
+                patientCount:5
+            },
+            "Tricology":{
+                doctor:"",
+                time:"08:00PM-10:00PM",
+                patientCount:5
+            },
+            "Ophtamology":{
+                doctor:"",
+                time:"08:00PM-10:00PM",
+                patientCount:5
+            },
         }
     }
 

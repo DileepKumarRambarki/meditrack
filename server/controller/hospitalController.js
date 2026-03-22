@@ -74,8 +74,14 @@ const getHospitalTimetable = async (req, res) => {
 
     try{
 
-        const hid = req.params.hospitalId;
-        const hospitalId = encodeBid(hid);
+        let hospitalId = req.params.hospitalId;
+
+        try {
+        hospitalId = encodeBid(hospitalId);
+        } catch (err) {
+        // If encoding fails → assume it's already encoded
+        console.log("Using raw hospitalId (already encoded)");
+        }
         const hospitalData = await hospital.findOne(
             { hospitalId: hospitalId },
             { timetable: 1, _id: 0 }

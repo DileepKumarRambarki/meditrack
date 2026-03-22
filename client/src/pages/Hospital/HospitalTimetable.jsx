@@ -1,142 +1,159 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./HospitalTimetable.module.css";
 import { useAuth } from "../../utils/Authcontext";
 import axios from "axios";
 
 export default function HospitalTimetable() {
 
-const { userId } = useAuth();
-const [hospitalId] = useState(userId);
+  const { userId } = useAuth();
+  const [hospitalId] = useState(userId);
 
-const departments = {
-    "Dermatology": "10:00AM-12:00PM",
+  const departments = {
+    Dermatology: "10:00AM-12:00PM",
     "General Medicine": "11:00AM-01:00PM",
-    "Gastroenterology": "12:00PM-02:00PM",
-    "Hepatology": "01:00PM-03:00PM",
-    "Orthopedics": "02:00PM-04:00PM",
-    "Pulmonology": "03:00PM-05:00PM",
-    "Cardiology": "04:00PM-06:00PM",
-    "Neurology": "05:00PM-07:00PM",
-    "Pediatrics": "06:00PM-08:00PM",
-    "ENT": "07:00PM-09:00PM",
-    "Gynecology": "08:00PM-10:00PM"
-};
+    Gastroenterology: "12:00PM-02:00PM",
+    Hepatology: "01:00PM-03:00PM",
+    Orthopedics: "02:00PM-04:00PM",
+    Pulmonology: "03:00PM-05:00PM",
+    Cardiology: "04:00PM-06:00PM",
+    Neurology: "05:00PM-07:00PM",
+    Pediatrics: "06:00PM-08:00PM",
+    ENT: "07:00PM-09:00PM",
+    Gynecology: "08:00PM-10:00PM",
+    Nephrology: "08:00PM-10:00PM",
+    Dentist: "08:00PM-10:00PM",
+    Radiology: "08:00PM-10:00PM",
+    Ophtamology: "08:00PM-10:00PM",
+    Tricology: "08:00PM-10:00PM",
+  };
 
-const timeslots = Object.values(departments);
+  const timeslots = Object.values(departments);
 
-const [tableData, setTableData] = useState({});
+  const [tableData, setTableData] = useState({});
 
-const handleChange = (dept, field, value) => {
+  // ✅ FETCH EXISTING TIMETABLE
+  useEffect(() => {
+    fetchTimetable();
+  }, []);
 
-    setTableData(prev => ({
-        ...prev,
-        [dept]: {
-            ...prev[dept],
-            [field]: value
-        }
-    }));
-};
-
-const handleSubmit = async () => {
-
-    const result = {};
-
-    Object.keys(departments).forEach(dept => {
-
-        result[dept] = {
-            doctor: tableData[dept]?.doctor || "",
-            time: tableData[dept]?.time || departments[dept],
-            patientCount: tableData[dept]?.count || 5
-        };
-
-    });
-
+  const fetchTimetable = async () => {
     try {
+      const res = await axios.get(
+        `http://localhost:3000/hospital/gettimetable/${hospitalId}`
+      );
 
-        const response = await axios.post(
-            "http://localhost:3000/hospital/updatetimetable",
-            {
-                hospitalId: hospitalId,
-                timetable: result
-            }
-        );
+      const data = res.data;
 
-        console.log("Server Response:", response.data);
+      // If backend returns { timetable: {...} }
+      const timetable = data.timetable || data;
 
-        alert("Timetable updated successfully");
+      setTableData(timetable);
 
     } catch (err) {
-
-        console.log("API ERROR:", err);
-        alert("Failed to update timetable");
-
+      console.log("Fetch Error:", err);
     }
-};
+  };
 
-return (
+  // ✅ HANDLE CHANGE
+  const handleChange = (dept, field, value) => {
+    setTableData((prev) => ({
+      ...prev,
+      [dept]: {
+        ...prev[dept],
+        [field]: value
+      }
+    }));
+  };
 
-<div className={styles.container}>
+  // ✅ SUBMIT UPDATED DATA
+  const handleSubmit = async () => {
+    try {
+      await axios.post(
+        "http://localhost:3000/hospital/updatetimetable",
+        {
+          hospitalId,
+          timetable: tableData
+        }
+      );
 
-<h2>Hospital Department Timetable</h2>
+      alert("Timetable updated successfully");
 
-<div className={styles.table}>
+    } catch (err) {
+      console.log("API ERROR:", err);
+      alert("Failed to update timetable");
+    }
+  };
 
-<div className={styles.header}>
-<div>Department</div>
-<div>Doctor Name</div>
-<div>Time Slot</div>
-<div>Max Patients</div>
-</div>
+  return (
+    <div className={styles.container}>
+      <h2>Hospital Department Timetable</h2>
 
-{Object.keys(departments).map((dept,index)=>(
-    
-<div className={styles.row} key={index}>
+      <div className={styles.table}>
+        <div className={styles.header}>
+          <div>Department</div>
+          <div>Doctor Name</div>
+          <div>Time Slot</div>
+          <div>Max Patients</div>
+        </div>
 
-<div className={styles.dept}>
-{dept}
-</div>
+        {Object.keys(departments).map((dept, index) => {
 
-<input
-type="text"
-placeholder="Enter Doctor Name"
-onChange={(e)=>handleChange(dept,"doctor",e.target.value)}
-/>
+          const current = tableData[dept] || {};
 
-<select
-onChange={(e)=>handleChange(dept,"time",e.target.value)}
->
+          return (
+            <div className={styles.row} key={index}>
 
-<option value={departments[dept]}>
-{departments[dept]}
-</option>
+              <div className={styles.dept}>{dept}</div>
 
-{timeslots.map((slot,i)=>(
-<option key={i} value={slot}>{slot}</option>
-))}
+              {/* Doctor */}
+              <input
+                type="text"
+                placeholder="Enter Doctor Name"
+                value={current.doctor || ""}
+                onChange={(e) =>
+                  handleChange(dept, "doctor", e.target.value)
+                }
+              />
 
-</select>
+              {/* Time */}
+              <select
+                value={current.time || departments[dept]}
+                onChange={(e) =>
+                  handleChange(dept, "time", e.target.value)
+                }
+              >
+                <option value={departments[dept]}>
+                  {departments[dept]}
+                </option>
 
-<input
-type="number"
-placeholder="Max Patients"
-defaultValue={5}
-onChange={(e)=>handleChange(dept,"count",e.target.value)}
-/>
+                {timeslots.map((slot, i) => (
+                  <option key={i} value={slot}>
+                    {slot}
+                  </option>
+                ))}
+              </select>
 
-</div>
+              {/* Patient Count */}
+              <input
+                type="number"
+                value={current.patientCount ?? ""}
+                onChange={(e) =>
+                    handleChange(
+                    dept,
+                    "patientCount",
+                    e.target.value === "" ? "" : Number(e.target.value)
+                    )
+                }
+                />
 
-))}
+            </div>
+          );
+        })}
+      </div>
 
-</div>
-
-<button
-className={styles.updateBtn}
-onClick={handleSubmit}
->
-Update
-</button>
-
-</div>
-
-);
+      <button className={styles.updateBtn} onClick={handleSubmit}>
+        Update
+      </button>
+    </div>
+  );
 }
